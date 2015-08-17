@@ -55,6 +55,27 @@ public class StatisticDB extends SQLiteOpenHelper {
         }
     }
 
+    public void CheckPast() {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -1);
+        String dateStr = String.valueOf(getStartOfDay(c.getTime(), Calendar.getInstance()).getTime());
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(STATISTIC_TABLENAME, new String[]{SCORE}, DATE_REPORT + " = ?", new String[]{dateStr}, null, null, null);
+        cursor.moveToFirst();
+        while (cursor.getCount() == 0)
+        {
+            ContentValues cv = new ContentValues();
+            cv.put(SCORE, 0);
+            cv.put(DATE_REPORT, dateStr);
+            db.insert(STATISTIC_TABLENAME, null, cv);
+
+            c.add(Calendar.DATE, -1);
+            dateStr = String.valueOf(getStartOfDay(c.getTime(), Calendar.getInstance()).getTime());
+            cursor = db.query(STATISTIC_TABLENAME, new String[]{SCORE}, DATE_REPORT + " = ?", new String[]{dateStr}, null, null, null);
+            cursor.moveToFirst();
+        }
+    }
+
     public int getTodayScore()
     {
         Calendar c = Calendar.getInstance();

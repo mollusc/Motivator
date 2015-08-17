@@ -120,6 +120,7 @@ public class MainActivity extends Activity {
                 refresh();
             }
         });
+        db.CheckPast();
         refresh();
     }
 
@@ -143,14 +144,13 @@ public class MainActivity extends Activity {
         tw.setText(String.valueOf(score_month));
         if(record_month < score_month) tw.setTextColor(Color.GREEN);
         int delta = record_month - score_month;
-        int colorText = 0;
+        int colorText = Color.BLACK;
         if(delta < 0) {
             colorText = Color.GREEN;
             tw.setTypeface(null, Typeface.BOLD);
         }
-        else{
-            //colorText = Color.HSVToColor( new float[]{120-delta*120/record_day,1,1});
-            colorText = Color.rgb(((delta*255)/record_day), 255 - (delta*255)/record_day ,0 );
+        else if (record_month > 0){
+            colorText = Color.rgb(((delta*255)/record_month), 255 - (delta*255)/record_month ,0 );
         }
         tw.setTextColor(colorText);
 
@@ -158,7 +158,7 @@ public class MainActivity extends Activity {
         tw.setText(String.valueOf(aim_score_month));
 
         tw = (TextView) findViewById(R.id.aim_progress_month);
-        tw.setText(String.valueOf(score_month/aim_score_month) + "%");
+        tw.setText(String.format("%.2f",(double)score_month/(double)aim_score_month*100) + "%");
     }
 
     private void refreshTodayScore(){
@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
             colorText = Color.GREEN;
             tw.setTypeface(null, Typeface.BOLD);
         }
-        else{
+        else if(record_day > 0){
             colorText = Color.rgb(((delta*255)/record_day), 255 - (delta*255)/record_day ,0 );
         }
         tw.setTextColor(colorText);
