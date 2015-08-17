@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Motivator</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="total_month">Всего за месяц</string>
+    <string name="action_settings">Settings</string>
+</resources>
